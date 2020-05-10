@@ -5,4 +5,4 @@ jobs:
     resource_class: large
     steps:
       - checkout
-      - run: mvn -ntp test
+      - run: mvn test
