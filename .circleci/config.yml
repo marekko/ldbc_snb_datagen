@@ -23,4 +23,4 @@ jobs:
             - ~/.sbt/1.0/zinc    # scala compiler bridge
       - run: mvn -ntp test
       - slack/status:
-          only_for_branches: dev
+          webhook: '${SLACK_WEBHOOK}'
