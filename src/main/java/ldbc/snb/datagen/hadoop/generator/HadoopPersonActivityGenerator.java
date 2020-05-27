@@ -103,12 +103,12 @@ public class HadoopPersonActivityGenerator extends DatagenHadoopJob {
 
                 DynamicActivitySerializer<HdfsCsvWriter> dynamicActivitySerializer = conf.getDynamicActivitySerializer();
                 dynamicActivitySerializer.initialize(hadoopConf, snDir, reducerId, isCompressed, insertTrailingSeparator);
-                AbstractInsertEventSerializer abstractInsertEventSerializer = null;
-                AbstractDeleteEventSerializer abstractDeleteEventSerializer = null;
-                if (DatagenParams.getDatagenMode() != DatagenMode.RAW_DATA) {
-                    abstractInsertEventSerializer = new InsertEventSerializer(hadoopConf, buildDir  + "/temp_insertStream_forum_" + reducerId, reducerId, DatagenParams.numUpdateStreams);
-                    abstractDeleteEventSerializer = new DeleteEventSerializer(hadoopConf, buildDir  + "/temp_deleteStream_forum_" + reducerId, reducerId, DatagenParams.numUpdateStreams);
-                }
+                AbstractInsertEventSerializer abstractInsertEventSerializer = new DummyInsertEventSerializer();
+                AbstractDeleteEventSerializer abstractDeleteEventSerializer = new DummyDeleteEventSerializer();
+//                if (DatagenParams.getDatagenMode() != DatagenMode.RAW_DATA) {
+//                    abstractInsertEventSerializer = new InsertEventSerializer(hadoopConf, buildDir  + "/temp_insertStream_forum_" + reducerId, reducerId, DatagenParams.numUpdateStreams);
+//                    abstractDeleteEventSerializer = new DeleteEventSerializer(hadoopConf, buildDir  + "/temp_deleteStream_forum_" + reducerId, reducerId, DatagenParams.numUpdateStreams);
+//                }
                 personActivityGenerator = new PersonActivityGenerator();
                 personActivityExporter =
                         new PersonActivityExporter(dynamicActivitySerializer, abstractInsertEventSerializer, abstractDeleteEventSerializer);

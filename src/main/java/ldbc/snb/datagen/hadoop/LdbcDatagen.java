@@ -219,22 +219,22 @@ public class LdbcDatagen extends DatagenHadoopJob {
         long serializeStaticTime = serializeStaticGraph();
         // interative generate update stream
         long serializeUpdatesTime = 0;
-        if (DatagenParams.getDatagenMode() == INTERACTIVE) {
-            printProgress("Serializing update streams and generating parameters");
-            serializeUpdatesTime = runSortInsertStream();
-            serializeUpdatesTime = serializeUpdatesTime + runSortDeleteStream();
-            generateInteractiveParameters();
-        }
-
-        // [JACK] ni this sort should merge all insert/delete streams, sort by event time then divide into a specified
-        // number of refresh data sets. Also some redundant sorting here I think.
-        if (DatagenParams.getDatagenMode() == BI) {
-            printProgress("Serializing batches and generating parameters");
-            runSortInsertStream();
-            runSortDeleteStream();
-            runBiSortJob();
-            generateBIParameters();
-        }
+//        if (DatagenParams.getDatagenMode() == INTERACTIVE) {
+//            printProgress("Serializing update streams and generating parameters");
+//            serializeUpdatesTime = runSortInsertStream();
+//            serializeUpdatesTime = serializeUpdatesTime + runSortDeleteStream();
+//            generateInteractiveParameters();
+//        }
+//
+//        // [JACK] ni this sort should merge all insert/delete streams, sort by event time then divide into a specified
+//        // number of refresh data sets. Also some redundant sorting here I think.
+//        if (DatagenParams.getDatagenMode() == BI) {
+//            printProgress("Serializing batches and generating parameters");
+//            runSortInsertStream();
+//            runSortDeleteStream();
+//            runBiSortJob();
+//            generateBIParameters();
+//        }
 
         //total time taken
         print("Person generation time: " + (personGenTime / 1000));
@@ -435,6 +435,10 @@ public class LdbcDatagen extends DatagenHadoopJob {
 
         confMap.putAll(ConfigParser.readConfig(args[0]));
         confMap.putAll(ConfigParser.readConfig(LdbcDatagen.class.getResourceAsStream("/params_default.ini")));
+
+        confMap.put("serializer.socialNetworkDir", args[1]);
+        confMap.put("serializer.buildDir", args[2]);
+        confMap.put("hadoop.numThreads", args[3]);
 
         LdbcConfiguration conf = new LdbcConfiguration(confMap);
 

@@ -86,10 +86,12 @@ public class HadoopPersonSortAndSerializer extends DatagenHadoopJob {
                         hadoopConf, conf.getSocialNetworkDir(), reducerId,
                         conf.isCompressed(), conf.insertTrailingSeparator()
                         );
-                if (DatagenParams.getDatagenMode() == DatagenMode.INTERACTIVE || DatagenParams.getDatagenMode() == DatagenMode.BI) {
-                    abstractInsertEventSerializer = new InsertEventSerializer(hadoopConf, conf.getBuildDir() + "/temp_insertStream_person_" + reducerId, reducerId, DatagenParams.numUpdateStreams);
-                    abstractDeleteEventSerializer = new DeleteEventSerializer(hadoopConf, conf.getBuildDir()  + "/temp_deleteStream_person_" + reducerId, reducerId, DatagenParams.numUpdateStreams);
-                }
+                abstractInsertEventSerializer = new DummyInsertEventSerializer();
+                abstractDeleteEventSerializer = new DummyDeleteEventSerializer();
+//                if (DatagenParams.getDatagenMode() == DatagenMode.INTERACTIVE || DatagenParams.getDatagenMode() == DatagenMode.BI) {
+//                    abstractInsertEventSerializer = new InsertEventSerializer(hadoopConf, conf.getBuildDir() + "/temp_insertStream_person_" + reducerId, reducerId, DatagenParams.numUpdateStreams);
+//                    abstractDeleteEventSerializer = new DeleteEventSerializer(hadoopConf, conf.getBuildDir()  + "/temp_deleteStream_person_" + reducerId, reducerId, DatagenParams.numUpdateStreams);
+//                }
             } catch (Exception e) {
                 System.err.println(e.getMessage());
                 throw new RuntimeException(e);
