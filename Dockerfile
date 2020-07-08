@@ -29,4 +29,4 @@ RUN mvn -DskipTests -ntp clean assembly:assembly
 
 ENV HADOOP_CLIENT_OPTS '-Xmx8G'
 ENV HADOOP_LOGLEVEL WARN
-CMD ["/bin/sh", "/opt/ldbc_snb_datagen/docker_run.sh"]
+CMD ["/bin/bash", "/opt/ldbc_snb_datagen/docker_run.sh"]
